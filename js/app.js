@@ -1,7 +1,24 @@
 // what type of constructor pattern (OOSJ) are you using for Enemy,Player functions?
 // IDEAS FOR increased learning on this project:
-    //introduction of static models that suffer when you lose the game
 
+  // Answer:
+
+    // Identify which class pattern you're utilizing here - functional?
+    // prototypal? pseudoclassical? annotate in 1st class definition
+
+    // how does your implementation score w.r.t. segregation between
+    // contructors and instances-of...and why
+
+  // Perform:
+
+    // introduction of static models that suffer when you lose the game
+
+    // smooth animation of player model(?)
+
+    // something more interesting occurring at waterline
+
+    // introduction of a 3rd class-'elementals' which impart beneficial
+    // spells and curses at random to players...
 
 // Enemies our player must avoid
 var Enemy = function(x,y) {
