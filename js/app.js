@@ -8,14 +8,15 @@
 
    //Please take your time - while I've not included everything I wanted to in this game as it's been long in coming, answers to the questions below would go a long way towards improving my understanding of this project.
 
-  	//doesn't inclusion of enemy coordinates in the constructor function violate principles of OOJS, in that only properties shared amongst all instances of a class be coded in the constructor?
+  	//doesn't inclusion of enemy coordinates in the constructor function violate principles of OOJS, in that only properties shared amongst all instances of a class be coded in the constructor?  In going through the forums
+  	//I have seen this done in many students' code, and wasn't sure if it was the correct way to approach.
 
   	//Is my implementation an example of prototypal class creation?  Psuedoclassical?  I am a bit unclear on the distinctions between these.
 
   	//Upon letting my game run for several minutes, I've noticed that the smoothness of enemy animation has decreased while the computational cost of the game increases (noticeable improvement in other programs when
-  	//closing the game - p)
+  	//closing the game)  Clearly the game is not performance-optimized but could you point out the biggest offenders for me?
 
-  	//Is it possible to use the 'this' parameter when attempting to refer to two entities within the same function (collision detection)?  Or should such a function be defined as a method of just one of those entities,
+  	//Is it possible to use the 'this' parameter when attempting to refer to instances of two entities (Player,Enemy) within the same function (checkCollisions)?  Or should such a function be defined as a method of just one of those entities,
   	//and "one-sided" collision detection be employed?
 
 //Axis-Aligned Bounding Box method as taken from MDN 2d collision detection - called by Global Update() fxn
@@ -96,6 +97,7 @@ Player.prototype.render = function(x,y) {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+//below code drew upon materials found in the forums - increments were settled upon via guess and check
 Player.prototype.handleInput = function(key) {
     if (key === 'left') {
         this.x = this.x - 101;
