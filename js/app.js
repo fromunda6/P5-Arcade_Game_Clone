@@ -1,55 +1,69 @@
-// what type of constructor pattern (OOSJ) are you using for Enemy,Player functions?
-// IDEAS FOR increased learning on this project:
+  // TO-DO (later, you need to keep moving)
 
-  // Answer:
+			    // something more interesting occurring at waterline
+			    // introduction of a 3rd class-'elementals' which impart beneficial
+			    // spells and curses at random to players...
 
-    // Identify which class pattern you're utilizing here - functional?
-    // prototypal? pseudoclassical? annotate in 1st class definition
+  //Notes to reviewer:
 
-    // how does your implementation score w.r.t. segregation between
-    // contructors and instances-of...and why
+   //Please take your time - while I've not included everything I wanted to in this game as it's been long in coming, answers to the questions below would go a long way towards improving my understanding of this project.
 
-  // Perform:
+  	//doesn't inclusion of enemy coordinates in the constructor function violate principles of OOJS, in that only properties shared amongst all instances of a class be coded in the constructor?
 
-    // introduction of static models that suffer when you lose the game
+  	//Is my implementation an example of prototypal class creation?  Psuedoclassical?  I am a bit unclear on the distinctions between these.
 
-    // smooth animation of player model(?)
+  	//Upon letting my game run for several minutes, I've noticed that the smoothness of enemy animation has decreased while the computational cost of the game increases (noticeable improvement in other programs when
+  	//closing the game - p)
 
-    // something more interesting occurring at waterline
+  	//Is it possible to use the 'this' parameter when attempting to refer to two entities within the same function (collision detection)?  Or should such a function be defined as a method of just one of those entities,
+  	//and "one-sided" collision detection be employed?
 
-    // introduction of a 3rd class-'elementals' which impart beneficial
-    // spells and curses at random to players...
+//Axis-Aligned Bounding Box method as taken from MDN 2d collision detection - called by Global Update() fxn
+//Essentially, the block inside the loop says "if the enemy's front and back ends occupy the same spa"
+
+var checkCollisions = function(){
+	for (i = 0; i < allEnemies.length; i ++) {
+		if (allEnemies[i].x < player.x + player.width &&
+			allEnemies[i].x + allEnemies[i].width > player.x &&
+			allEnemies[i].y < player.y + player.height &&
+			allEnemies[i].y + allEnemies[i].height > player.y) {
+				player.x = 101;
+				player.y = 404;
+				alert("Ouch, you hit a bug");
+		};
+	};
+};
 
 // Enemies our player must avoid
 var Enemy = function(x,y) {
-    var enemyPos = [50,140,230]
 
     this.y = y;
     this.x = x;
 
-    this.speed = Math.random() * 100;
+    this.speed = Math.floor(Math.random() * 200);
 
     this.sprite = 'images/enemy-bug.png';
+
+    //these sizes are estimated from the image rectangle dimensions of 101x171, as I was unable to find a method for determining the effective size of my sprites
+
+    this.width = 90;
+    this.height = 70;
+
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
-// Not magic - the updateEntities fxn in engine.js is looping end
-// lessly through your update functions
-// You should multiply any movement by the dt parameter
-// which will ensure the game runs at the same speed for
-// all computers.
-
 // Enemy.UPDATE: IF enemy's x co-ord is w/in bounds of canvas,
 // persist in continuous updating of this.x as = XpointSpeed modifier...
-// ELSE re-set this.x at beginning of board
-Enemy.prototype.update = function(dt) {
+// ELSE reset position of * *this* * to beginning of game board
+
+Enemy.prototype.update = function(dt, index) {
     if (this.x < 404) {
         this.x = this.x + (this.speed*dt);
     }
         else {
-        this.x = 1;
+        this.x=1;
     };
 };
 
@@ -66,9 +80,14 @@ var Player = function(x,y) {  //game board is 505x606(x,y) px
     this.x = x;  //player positions are not explicitly defined inside class function, but at instantiation
     this.y = y;
     this.sprite = 'images/char-boy.png';
+
+    //these sizes are estimated from the image rectangle dimensions of 101x171, as I was unable to find a method for determining the effective size of my sprites
+
+    this.width = 50;
+    this.height = 80;
 };
 
-//Player.UPDATE: unnecessary for the functioning of the game, as movement
+//Player.UPDATE: unnecessary for the functioning of the game, as movement is controlled by player....handleInput(), although were we to tackle smooth animation, this would be a place to start
 Player.prototype.update = function(dt) {
 
 };
@@ -93,16 +112,16 @@ Player.prototype.handleInput = function(key) {
     };
 
     if (key === 'up') {
-        this.y = this.y - 83; //where 83 represents 5 equal moves vertically across 600px of game board
+        this.y = this.y - 90; //where 83 represents 5 equal moves vertically across 600px of game board
         if (this.y<0){
             this.y=404;
             this.x=101;
+            alert("You've reached the relative safety of the ocean - hope you can swim!")
         };
     };
 
     if (key === 'down') {
-        this.y = this.y + 83;
-        console.log(this.y);//ditto
+        this.y = this.y + 90;
         if (this.y>404) {
             this.y = 404;
         };
@@ -132,3 +151,5 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
