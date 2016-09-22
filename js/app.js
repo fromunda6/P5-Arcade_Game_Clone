@@ -40,7 +40,7 @@ var Enemy = function(x,y) {
     this.y = y;
     this.x = x;
 
-    this.speed = Math.floor(Math.random() * 200);
+    this.speed = Math.floor(Math.random() * 200);  //rounds down to the nearest integer the result of math.random*200
 
     this.sprite = 'images/enemy-bug.png';
 
@@ -61,8 +61,8 @@ var Enemy = function(x,y) {
 Enemy.prototype.update = function(dt, index) {
     if (this.x < 404) {
         this.x = this.x + (this.speed*dt);
-    }
-        else {
+    };
+    else {
         this.x=1;
     };
 };
