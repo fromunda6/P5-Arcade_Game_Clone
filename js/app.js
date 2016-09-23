@@ -22,14 +22,31 @@
 //Axis-Aligned Bounding Box method as taken from MDN 2d collision detection - called by Global Update() fxn
 //Essentially, the block inside the loop says "if the enemy's front and back ends occupy the same spa"
 
+var p_start_x = 101;
+var p_start_y = 404;
+
+var e1_start_y = 50;
+var e2_start_y = 140;
+var e3_start_y = 230;
+
+var one_step_x = 101;
+var one_step_y = 90;
+
+var left_wall_x = 1;
+var right_wall_x = 405;
+var floor_y = 404;
+var ceiling_y = 0;
+
+//Is it ok/problematic to give two variables the same constant value.  I can see if both of those variables referred to object-instance positions, but in this case with one an increment, one a position?
+
 var checkCollisions = function(){
 	for (i = 0; i < allEnemies.length; i ++) {
-		if (allEnemies[i].x < player.x + player.width &&
-			allEnemies[i].x + allEnemies[i].width > player.x &&
-			allEnemies[i].y < player.y + player.height &&
-			allEnemies[i].y + allEnemies[i].height > player.y) {
-				player.x = 101;
-				player.y = 404;
+		if (allEnemies[i].x < player.x + player.WIDTH &&
+			allEnemies[i].x + allEnemies[i].WIDTH > player.x &&
+			allEnemies[i].y < player.y + player.HEIGHT &&
+			allEnemies[i].y + allEnemies[i].HEIGHT > player.y) {
+				player.x = p_start_x;
+				player.y = p_start_y;
 				alert("Ouch, you hit a bug");
 		};
 	};
@@ -47,8 +64,8 @@ var Enemy = function(x,y) {
 
     //these sizes are estimated from the image rectangle dimensions of 101x171, as I was unable to find a method for determining the effective size of my sprites
 
-    this.width = 90;
-    this.height = 70;
+    this.WIDTH = 90;
+    this.HEIGHT = 70;
 
 };
 
@@ -62,9 +79,9 @@ var Enemy = function(x,y) {
 Enemy.prototype.update = function(dt, index) {
     if (this.x < 404) {
         this.x = this.x + (this.speed*dt);
-    };
+    }
     else {
-        this.x=1;
+        this.x=left_wall_x;
     };
 };
 
@@ -84,8 +101,8 @@ var Player = function(x,y) {  //game board is 505x606(x,y) px
 
     //these sizes are estimated from the image rectangle dimensions of 101x171, as I was unable to find a method for determining the effective size of my sprites
 
-    this.width = 50;
-    this.height = 80;
+    this.WIDTH = 50;
+    this.HEIGHT = 80;
 };
 
 //Player.UPDATE: unnecessary for the functioning of the game, as movement is controlled by player....handleInput(), although were we to tackle smooth animation, this would be a place to start
@@ -100,31 +117,31 @@ Player.prototype.render = function(x,y) {
 //below code drew upon materials found in the forums - increments were settled upon via guess and check
 Player.prototype.handleInput = function(key) {
     if (key === 'left') {
-        this.x = this.x - 101;
-        if (this.x<=0){
+        this.x = this.x - one_step_x;
+        if (this.x<=left_wall_x){
             this.x=1;
         };
     };
 
     if (key === 'right') {
-        this.x = this.x + 101;
-        if (this.x>=405){
-            this.x=405;
+        this.x = this.x + one_step_x;
+        if (this.x>=right_wall_x){
+            this.x=404;
         };
     };
 
     if (key === 'up') {
-        this.y = this.y - 90; //where 83 represents 5 equal moves vertically across 600px of game board
-        if (this.y<0){
-            this.y=404;
-            this.x=101;
+        this.y = this.y - one_step_y; //where 83 represents 5 equal moves vertically across 600px of game board
+        if (this.y<ceiling_y){
+            this.y=p_start_y;
+            this.x=p_start_x;
             alert("You've reached the relative safety of the ocean - hope you can swim!")
         };
     };
 
     if (key === 'down') {
-        this.y = this.y + 90;
-        if (this.y>404) {
+        this.y = this.y + one_step_y;
+        if (this.y>floor_y) {
             this.y = 404;
         };
     };
@@ -134,11 +151,11 @@ Player.prototype.handleInput = function(key) {
 
 // Place all enemy objects in an array called allEnemies
 
-var allEnemies = [new Enemy(1,50), new Enemy(1,140), new Enemy(1,230)];
+var allEnemies = [new Enemy(1,e1_start_y), new Enemy(1,e2_start_y), new Enemy(1,e3_start_y)];
 
 // Place the player object in a variable called player
 
-var player = new Player(101,404);
+var player = new Player(p_start_x,p_start_y);
 
 
 // This listens for key presses and sends the keys to your
