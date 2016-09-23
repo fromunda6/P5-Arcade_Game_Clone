@@ -6,13 +6,12 @@
 
   //Notes to reviewer:
 
-   //Please take your time - while I've not included everything I wanted to in this game as it's been long in coming, answers to the questions below would go a long way towards improving my understanding of this project.
+   //Thank you for your advice regarding principles of Don't Repeat Yourself (DRY) and suggesting the creation of a superclass as a parent class of player and enemy; I will employ it in future projects.
 
   	//doesn't inclusion of enemy coordinates in the constructor function violate principles of OOJS, in that only properties shared amongst all instances of a class be coded in the constructor?  In going through the forums
   	//I have seen this done in many students' code, and wasn't sure if it was the correct way to approach.
 
   	//Is my implementation an example of prototypal class creation?  Psuedoclassical?  I am a bit unclear on the distinctions between these.
-
   	//Upon letting my game run for several minutes, I've noticed that the smoothness of enemy animation has decreased while the computational cost of the game increases (noticeable improvement in other programs when
   	//closing the game)  Clearly the game is not performance-optimized but could you point out the biggest offenders for me?
 
@@ -21,6 +20,7 @@
 
 //Axis-Aligned Bounding Box method as taken from MDN 2d collision detection - called by Global Update() fxn
 //Essentially, the block inside the loop says "if the enemy's front and back ends occupy the same spa"
+
 
 var p_start_x = 101;
 var p_start_y = 404;
@@ -37,7 +37,7 @@ var right_wall_x = 405;
 var floor_y = 404;
 var ceiling_y = 0;
 
-//Is it ok/problematic to give two variables the same constant value.  I can see if both of those variables referred to object-instance positions, but in this case with one an increment, one a position?
+//Is it ok/problematic to give two variables the same constant value, as I've done above?  I can see if both of those variables referred to object-instance positions, but in this case with one an increment, one a position?
 
 var checkCollisions = function(){
 	for (i = 0; i < allEnemies.length; i ++) {
@@ -48,8 +48,8 @@ var checkCollisions = function(){
 				player.x = p_start_x;
 				player.y = p_start_y;
 				alert("Ouch, you hit a bug");
-		};
-	};
+		}
+	}
 };
 
 // Enemies our player must avoid
@@ -82,7 +82,7 @@ Enemy.prototype.update = function(dt, index) {
     }
     else {
         this.x=left_wall_x;
-    };
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -120,31 +120,31 @@ Player.prototype.handleInput = function(key) {
         this.x = this.x - one_step_x;
         if (this.x<=left_wall_x){
             this.x=1;
-        };
-    };
+        }
+    }
 
     if (key === 'right') {
         this.x = this.x + one_step_x;
         if (this.x>=right_wall_x){
             this.x=404;
-        };
-    };
+        }
+    }
 
     if (key === 'up') {
         this.y = this.y - one_step_y; //where 83 represents 5 equal moves vertically across 600px of game board
         if (this.y<ceiling_y){
             this.y=p_start_y;
             this.x=p_start_x;
-            alert("You've reached the relative safety of the ocean - hope you can swim!")
-        };
-    };
+            alert("You've reached the relative safety of the ocean - hope you can swim!");
+        }
+    }
 
     if (key === 'down') {
         this.y = this.y + one_step_y;
         if (this.y>floor_y) {
             this.y = 404;
-        };
-    };
+        }
+    }
 };
 
 // Now instantiate your objects.
